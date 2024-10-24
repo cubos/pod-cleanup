@@ -1,0 +1,15 @@
+apiVersion: v2
+name: pod-cleanup
+description: Removes all Kubernetes pods that are in a failed status
+home: https://github.com/cubos/pod-cleanup
+type: application
+kubeVersion: ">= 1.21.0-0"
+keywords:
+  - kubernetes
+sources:
+  - https://github.com/cubos/pod-cleanup
+maintainers:
+  - name: Diego Santos
+    email: diomalta@users.noreply.github.com
+version: 0.0.0
+appVersion: 0.0.0

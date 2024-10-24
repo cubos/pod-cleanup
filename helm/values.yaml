@@ -1,0 +1,8 @@
+podCleanup:
+  cleanupContainer:
+    image:
+      repository: bitnami/kubectl
+      tag: latest
+  schedule: 0 3 * * *
+  serviceAccount:
+    annotations: {}
