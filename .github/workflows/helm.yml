@@ -45,3 +45,4 @@ jobs:
       - name: Publish chart 🚀
         run: |
           helm push *.tgz oci://ghcr.io/cubos/charts
+ 
