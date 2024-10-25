@@ -1,11 +1,8 @@
 name: Helm Chart
 
 on:
-  push:
-    branches:
-      - main
-    tags:
-      - "*"
+  release:
+    types: [published]
 
 jobs:
   helm:
@@ -45,4 +42,3 @@ jobs:
       - name: Publish chart 🚀
         run: |
           helm push *.tgz oci://ghcr.io/cubos/charts
- 
