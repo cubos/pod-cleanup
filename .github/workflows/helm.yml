@@ -1,0 +1,44 @@
+name: Helm Chart
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  helm:
+    name: Publish to GitHub 📦
+    runs-on: ubuntu-latest
+
+    permissions:
+      packages: write
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Configure Git 📖
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Install Helm ⚙️
+        uses: azure/setup-helm@v3
+
+      - name: Login to Helm Registry 🔑
+        run: |
+          helm registry login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
+
+      - name: Build chart 🚚
+        run: |
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            VERSION="${GITHUB_REF_NAME}"
+          else
+            VERSION="0.0.0-${GITHUB_SHA::7}"
+          fi
+
+          sed -i "s/0.0.0/$VERSION/g" helm/Chart.yaml
+          helm package helm --key pod-cleanup
+
+      - name: Publish chart 🚀
+        run: |
+          helm push *.tgz oci://ghcr.io/cubos/charts
